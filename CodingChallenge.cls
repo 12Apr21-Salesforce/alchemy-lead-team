@@ -1,5 +1,6 @@
-    Lead off your class with the following comment, filled out with 
-    your information.
+
+    // Lead off your class with the following comment, filled out with 
+    // your information.
 
     /////////////////////////////////////////////////////////////////
     //
@@ -11,9 +12,9 @@
     //
     /////////////////////////////////////////////////////////////////
 
-    Write the following methods in a class called P0B. 
-    Note: The method signatures are given.
-
+    // Write the following methods in a class called P0B. 
+    // Note: The method signatures are given.
+public class P0B {
     /*
      * 1. Return the nth Fibonacci number
      * Test Cases:
@@ -23,7 +24,22 @@
      * Input: 10    Output: 55
     */
     public static Integer nFibonacci( Integer n ){
-
+        // Set up a result list.
+        List<Integer> result = new List<Integer>();
+        // add 0 and 1 to the list as starter.
+        result.add(0);
+        result.add(1);
+        // count from 2 to n
+        for (Integer i = 2; i <= n; i++) {
+            // get the last, 2nd last element in the list.
+            Integer a = result[result.size() - 1];
+            Integer b = result[result.size() - 2];
+            // push addition to the list.
+            result.add(a + b);
+        }
+        // return last element.
+        System.debug(result[result.size() - 1]);
+        return result[result.size() - 1];
     }
 
     /*
@@ -35,8 +51,44 @@
      * Don't use the sort() method... that would be lame.
     */
     public static List<Integer> sortList( List<Integer> intList ) {
+        
+        // bubble sort
 
+        // loop over the list
+        for (Integer i = 0; i < intList.size(); i++) {
+            // 1 less element to look each iteration
+            for (Integer j = 0; j < (intList.size() - i - 1); j++) {
+                // if current element is greater than the following element,
+                if (intList[j] > intList[j + 1]) {
+                    // store smaller value, set value of next index to be current value,
+                    // and set current index to be the value stored.
+                    Integer tempLesser = intList[j + 1];
+                    intList[j + 1] = intList[j];
+                    intList[j] =  tempLesser;
+                }
+            }
+        }
+        return intList;
+
+        // result.add(intList[0]);
+
+        // for (Integer i = 1; i <= intList.size(); i++) {
+        //     if (result[0])
+            // for (Integer j = i + 1; j <= intList.size() - 1; i++) {
+            //     if (j < i) {
+            //         intList[i] = j;
+            //         intList[j] = i;
+            //     } else if (j == i) {
+            //         intList[i + 1] = j;
+            //         intList[j] = intList[i + 1];
+            //     }
+            // }
+        // }
     }
+    // run with:
+    // List<Integer> param = new List<Integer>{2,4,5,1,3,1};
+    // Challenge.sortList(param);
+
 
     /*
      * 3. Return the factorial of n.
@@ -46,7 +98,13 @@
      * Input: 3    Output: 6
     */
     public static Integer nFactorial( Integer n) {
-
+        Integer num = 1;
+        // loop, multiply from 1 to n passed in
+        for(Integer i = 1; i <= n ; i++) {
+            num = num * i;
+        }
+        System.debug(num);
+        return num;
     }
 
     /*
@@ -58,7 +116,24 @@
      * Input: [1,2,3,4,5], 3    Output: [4,5,1,2,3]
     */
     public static List<Integer> rotateLeftNTimes( List<Integer> nList, Integer n) {
-
+        // set up a counter
+        Integer counter = 0;
+        // until counter hits n,
+        while (counter < n) {
+            // set up a variable to store first element in nList.
+            Integer num = nList[0];
+            // loop over the list,
+            for(Integer i = 1; i < nList.size(); i++) {
+                // move every element left one index
+                nList[i - 1] = nList[i];
+            }
+            // set the first element to be the last element.
+            nList[nList.size() - 1] = num;
+            // increment counter
+            counter++;
+        }
+        System.debug(nList);
+        return nList;
     }
 
     /*
@@ -81,7 +156,15 @@
      * Return false if not balanced
     */
     public static Boolean bracketsAreBalanced( String s ) {
-
+        List<String> bracketList = new List<String>();
+        // Map<String, String> bracketMap = new Map<String, String>();
+        bracketList = s.split('');
+        for (Integer i = 0; i < bracketList.size(); i++) {
+            if (bracketList[i] == '(' || bracketList[i] == ')') {
+                // bracketMap.add(bracketList[i] + i, null); 
+            }
+        }
+        return true;
     }
 
     /* You should NOT be submitting answers that you find online. You will be expected to be able to defend any of these solutions without notice. */
@@ -96,8 +179,24 @@
     *         - If an account has more than 10000 employees it is classified as large.
      *     Update the Size__c field on each account to reflect the amount of employees in the Account.
     */
+    
     public static void updateAccountSize( ) {
-
+        // set up an sObject to store data, query NumberOfEmployees field.
+        List<Account> accounts = [SELECT NumberOfEmployees FROM Account];
+        System.debug(accounts);
+        // for each acc record in accounts sObject,
+        for (Account acc : accounts) {
+            // add field Size__c to sObject and set each value according to each records' NumberOfEmployees
+            if (acc.NumberOfEmployees > 10000) {
+                acc.Size__c = 'Large';
+            } else if (acc.NumberOfEmployees > 1000) {
+                acc.Size__c = 'Medium';
+            } else {
+                acc.Size__c = 'Small';
+            }
+        }
+        // update
+        update accounts;
     }
 
     /* 
@@ -107,7 +206,14 @@
      * business in California."
      */
     public static void updateCALeads( ) {
-
+        // Query Status field of records with State='CA', store it in sObject
+        List<Lead> leads = [SELECT Status FROM Lead WHERE State = 'CA'];
+        for (Lead lead : leads) {
+            // create Status field in sObject, set it to 'Closed - Not Converted'
+            lead.Status = 'Closed - Not Converted';
+        }
+        // update
+        update leads;
     }
 
     /*
@@ -116,7 +222,16 @@
      * they are not marked as 'Closed Won', they should be marked as 'Closed Lost'.
      */
     public static void closePastDueOpportunities( ) {
-
+        // get today's date
+        Date today = date.today();
+        // Query, filter it with the date stored and by StageName
+        List<Opportunity> opps = [SELECT CloseDate FROM Opportunity WHERE CloseDate < :today AND StageName != 'Closed Won'];
+        for (Opportunity opp : opps) {
+            // Set StageNames of sObject.
+            opp.StageName = 'Closed Lost';
+        }
+        // update
+        update opps;
     }
 
     /*  
@@ -130,11 +245,39 @@
      *
      *  Other examples:
      *      str = "aa6?9" => questionMarks returns false
-     *      str = "a?7??s?3r1?????5" => questionMarks returns true because there's at least one pair of numbers that sum to 10 (7 and 3) and 3
+     *      str = "a?7???3r1?????5" => questionMarks returns true because there's at least one pair of numbers that sum to 10 (7 and 3) and 3
      *          question marks between those numbers
     */
     public static Boolean questionMarks(String str) {
+        // if number,
+        // check if next 3 chars are ??? followed by number.
+        // if so, check if two numbers add up to 10
+        // otherwise, return false.
+        List<String> splitStr = str.split('');
+        for (Integer i = 0; i < splitStr.size(); i++) {
+            System.debug(splitStr[i].isNumeric());
+            if (splitStr[i].isNumeric() && splitStr[i + 4].isNumeric()) {
+                if (splitStr[i] + splitStr[i + 3] == 10) {
+                    if (splitStr[i + 1] == '?' && splitStr[i + 2] == '?' && splitStr[i + 3] == '?') {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                } else {
+                    return false
+                }
+            } else {
+                return false;
+            }
+        }
     }
+
+
+        //String str = 'abcd';
+        //String s = String.join(str.split(''), '');
+    	//System.debug(s);
+    	
 
     /*
      *   10. multipleCounter returns the number of multiples of the Integer n that exist in the inclusive range [firstNum, secondNum].
@@ -144,8 +287,13 @@
      *       firstNum = 1, secondNum = 6, n = 5 => multipleCounter returns 1 because there is one multiple of 5 in the range [1, 6] (which is 5)
      *       firstNum = 2, secondNum = 12, n = 2 => multipleCounter returns 6 because there are 6 multiples of 2 in the range [2, 12] 
      *          (which are 2, 4, 6, 8, 10, and 12)
+            
     */
+
     public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
+        // min num, max num.
+        // each time the multiplierCounter is included, set counter++
+        firstNum
     }
     
     /*
@@ -166,4 +314,46 @@
      *                                    'aba' 'bbb' 'abba' 'b' 'aba' is the greedy answer.
     */
     public static Integer palindromicity(String str) {
+        Interger count = 0;
+        List<String> originalList = str.split('');
+        List<String> newList = new List<String>();
+        
+        for(Integer i; i < originalList.size(); i++) {
+            newList.add(originalList[0]);
+            originalList.remove(0);
+            if (newList.length() >= 2) {
+                String testStr = String.join(newList, '');
+                if (isPalindrome(testStr)) {
+                    count++;
+                    newList.clear();
+                } else {
+                    
+                }
+            }
+        }
+
+        // split string, add first element to a new List while removing it from the original List.
+        // every time an element is added to a new list, check if list has palindrome
+        // if yes, increment counter and delete list.
+        // if no, continue adding more elements.
+        // return counter
     }
+    // is palindrome
+    public static Boolean isPalindrome(String str) {
+        String reversed = str.reverse();
+        return str == reversed;
+    }
+    // handler
+    public static void handler(List<String> originalList, List<String> newList) {
+        newList.add(originalList[0]);
+
+        // if (isPalindrome(testStr)) {
+        //     count++;
+        //     newList.clear();
+        // } else {
+            
+        // }
+    }
+}
+
+
