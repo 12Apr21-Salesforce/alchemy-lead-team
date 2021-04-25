@@ -120,7 +120,7 @@ public class P0B {
         Integer counter = 0;
         // until counter hits n,
         while (counter < n) {
-            // set up a variable to store first element in nList.
+            // set up a variable to hold first element in nList.
             Integer num = nList[0];
             // loop over the list,
             for(Integer i = 1; i < nList.size(); i++) {
@@ -227,19 +227,22 @@ public class P0B {
         // set up an sObject to store data, query NumberOfEmployees field.
         List<Account> accounts = [SELECT NumberOfEmployees FROM Account];
         System.debug(accounts);
-        // for each acc record in accounts sObject,
-        for (Account acc : accounts) {
-            // add field Size__c to sObject and set each value according to each records' NumberOfEmployees
-            if (acc.NumberOfEmployees > 10000) {
-                acc.Size__c = 'Large';
-            } else if (acc.NumberOfEmployees > 1000) {
-                acc.Size__c = 'Medium';
-            } else {
-                acc.Size__c = 'Small';
+        // if there are any record
+        if (accounts.size() > 0) {
+            // for each acc record in accounts sObject,
+            for (Account acc : accounts) {
+                // add field Size__c to sObject and set each value according to each records' NumberOfEmployees
+                if (acc.NumberOfEmployees > 10000) {
+                    acc.Size__c = 'Large';
+                } else if (acc.NumberOfEmployees > 1000) {
+                    acc.Size__c = 'Medium';
+                } else {
+                    acc.Size__c = 'Small';
+                }
             }
+            // update
+            update accounts;
         }
-        // update
-        update accounts;
     }
 
     /* 
@@ -251,12 +254,16 @@ public class P0B {
     public static void updateCALeads( ) {
         // Query Status field of records with State='CA', store it in sObject
         List<Lead> leads = [SELECT Status FROM Lead WHERE State = 'CA'];
-        for (Lead lead : leads) {
+        // if there are any record
+        if (leads.size() > 0) {
+            for (Lead lead : leads) {
             // create Status field in sObject, set it to 'Closed - Not Converted'
             lead.Status = 'Closed - Not Converted';
+            }
+            // update
+            update leads;
         }
-        // update
-        update leads;
+        
     }
 
     /*
@@ -269,12 +276,15 @@ public class P0B {
         Date today = date.today();
         // Query, filter it with the date stored and by StageName
         List<Opportunity> opps = [SELECT CloseDate FROM Opportunity WHERE CloseDate < :today AND StageName != 'Closed Won'];
-        for (Opportunity opp : opps) {
-            // Set StageNames of sObject.
-            opp.StageName = 'Closed Lost';
+        // if there are any record
+        if (opps.size() > 0) {
+            for (Opportunity opp : opps) {
+                // Set StageNames of sObject.
+                opp.StageName = 'Closed Lost';
+            }
+            // update
+            update opps;
         }
-        // update
-        update opps;
     }
 
     /*  
