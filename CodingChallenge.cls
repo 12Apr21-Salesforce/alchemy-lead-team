@@ -255,22 +255,23 @@ public class P0B {
         // otherwise, return false.
         List<String> splitStr = str.split('');
         for (Integer i = 0; i < splitStr.size(); i++) {
-            System.debug(splitStr[i].isNumeric());
+            System.debug(splitStr[i].isNumeric() + ', ' + splitStr[i + 4].isNumeric());
             if (splitStr[i].isNumeric() && splitStr[i + 4].isNumeric()) {
-                if (splitStr[i] + splitStr[i + 3] == 10) {
+                if (Integer.valueof(splitStr[i]) + Integer.valueof(splitStr[i + 3]) == 10) {
                     if (splitStr[i + 1] == '?' && splitStr[i + 2] == '?' && splitStr[i + 3] == '?') {
                         return true;
                     }
                     else {
+                        System.debug('First False');
                         return false;
                     }
                 } else {
-                    return false
+                    System.debug('Second False');
+                    return false;
                 }
-            } else {
-                return false;
             }
         }
+         return true;
     }
 
 
@@ -287,13 +288,22 @@ public class P0B {
      *       firstNum = 1, secondNum = 6, n = 5 => multipleCounter returns 1 because there is one multiple of 5 in the range [1, 6] (which is 5)
      *       firstNum = 2, secondNum = 12, n = 2 => multipleCounter returns 6 because there are 6 multiples of 2 in the range [2, 12] 
      *          (which are 2, 4, 6, 8, 10, and 12)
+                4, 6, 8, 10, 12 // 6, 8, 10, 12
             
     */
 
     public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
-        // min num, max num.
-        // each time the multiplierCounter is included, set counter++
-        firstNum
+        if (firstNum <= n) {
+            System.debug(secondNum / n);
+            return (secondNum / n);
+        } else {
+            Integer subtractThis = Integer.valueOf(
+                Math.ceil(double.valueOf(firstNum) / double.valueOf(n))
+            );
+                
+            System.debug((secondNum / n - subtractThis) + 1);
+            return (secondNum / n - subtractThis) + 1;
+        }
     }
     
     /*
