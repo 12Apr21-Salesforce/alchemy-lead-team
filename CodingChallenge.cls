@@ -156,16 +156,59 @@ public class P0B {
      * Return false if not balanced
     */
     public static Boolean bracketsAreBalanced( String s ) {
-        List<String> bracketList = new List<String>();
-        // Map<String, String> bracketMap = new Map<String, String>();
-        bracketList = s.split('');
-        for (Integer i = 0; i < bracketList.size(); i++) {
-            if (bracketList[i] == '(' || bracketList[i] == ')') {
-                // bracketMap.add(bracketList[i] + i, null); 
+        List<String> openBrackets = new List<String>{'[', '(', '{'};
+        List<String> closeBrackets = new List<String>{']', ')', '}'};
+        List<String> strList = cleanseString(s).split('');
+        List<Integer> stack = new List<Integer>();
+
+        // Loop over the strList
+        for (Integer i = 0; i < strList.size(); i++) {
+            // if element is one of open brackets,
+            if (openBrackets.contains(strList[i])) {
+                // add corresponding index number in the `openBrackets` List
+                stack.add(openBrackets.indexOf(strList[i]));
+            }else if (!openBrackets.contains(strList[i]) && stack.size() != 0){
+                // otherwise, and  only if stack is not empty,
+                // check if the closing bracket index does not match the number we have at the top of stack.
+                if (stack.remove(stack.size() - 1) != closeBrackets.indexOf(strList[i])) {
+                    System.debug(false);
+                    // if so, not balanced.
+                    return false;
+                }
+            }
+        } 
+        // balanced if we got nothing at the end of loop, not balanced otherwise.
+        if (stack.size() == 0) {
+            System.debug(true);
+            return true;
+        } else {
+            System.debug(false);
+            return false;
+        }
+    }
+    
+    // method for brackets challenge..
+    public static String cleanseString(String s) {
+        // split to use List methods
+        List<String> strList = s.split('');
+        // define brackets
+        List<String> brackets = new List<String>{'(',')','{','}','[',']'};
+        // new List to hold only brackets
+        List<String> newStrList = new List<String>();
+        // loop over the list
+        for (String str: strList) {
+            // if element is one of the brackets specified,
+            if (brackets.contains(str)) {
+                // add to the new list
+				newStrList.add(str);
             }
         }
-        return true;
+        // join the list back to string and return it
+        System.debug(String.join(newStrList, ''));
+        return String.join(newStrList, '');
     }
+    
+
 
     /* You should NOT be submitting answers that you find online. You will be expected to be able to defend any of these solutions without notice. */
 
@@ -253,27 +296,29 @@ public class P0B {
         // check if next 3 chars are ??? followed by number.
         // if so, check if two numbers add up to 10
         // otherwise, return false.
+        Integer counter = 0;
         List<String> splitStr = str.split('');
         for (Integer i = 0; i < splitStr.size(); i++) {
             System.debug(splitStr[i].isNumeric() + ', ' + splitStr[i + 4].isNumeric());
-            if (splitStr[i].isNumeric() && splitStr[i + 4].isNumeric()) {
-                if (Integer.valueof(splitStr[i]) + Integer.valueof(splitStr[i + 3]) == 10) {
-                    if (splitStr[i + 1] == '?' && splitStr[i + 2] == '?' && splitStr[i + 3] == '?') {
-                        return true;
-                    }
-                    else {
-                        System.debug('First False');
-                        return false;
-                    }
-                } else {
-                    System.debug('Second False');
-                    return false;
-                }
+            if (splitStr[i].isNumeric() && numbersAddUpToTen()) {
+                System.debug('Hi');
             }
         }
          return true;
     }
 
+public static Boolean numbersAddUpToTen(List<String> strList, Integer i) {
+    try {
+        Integer nextNum = strList[i + 4];
+        if (strList[i] + nextNum == 10) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (Exception e) {
+        System.debug(e);
+    }
+}
 
         //String str = 'abcd';
         //String s = String.join(str.split(''), '');
@@ -293,16 +338,18 @@ public class P0B {
     */
 
     public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
+        // if firstNum is less than or equal to n
         if (firstNum <= n) {
+            // return secondNum / n
             System.debug(secondNum / n);
             return (secondNum / n);
         } else {
-            Integer subtractThis = Integer.valueOf(
+            // otherwise, do some calculation
+            Integer constant = Integer.valueOf(
                 Math.ceil(double.valueOf(firstNum) / double.valueOf(n))
             );
-                
-            System.debug((secondNum / n - subtractThis) + 1);
-            return (secondNum / n - subtractThis) + 1;
+            System.debug((secondNum / n - constant) + 1);
+            return (secondNum / n - constant) + 1;
         }
     }
     
