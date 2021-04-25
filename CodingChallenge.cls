@@ -23,7 +23,12 @@
      * Input: 10    Output: 55
     */
     public static Integer nFibonacci( Integer n ){
-
+       if(n==0){
+            return 0;
+        }else if(n==1){
+            return 1;
+        }
+        return nFibonacci(n-1)+nFibonacci(n-2);
     }
 
     /*
@@ -35,7 +40,18 @@
      * Don't use the sort() method... that would be lame.
     */
     public static List<Integer> sortList( List<Integer> intList ) {
-
+        Integer n=intList.size();
+        for(Integer i=0; i<n; i++){
+            for(Integer j=1; j<n-i; j++){
+                if(intList[j-1]>intList[j]){
+                    Integer temp;
+                    temp=intList[j-1];
+                    intList[j-1]=intList[j];
+                    intList[j]=temp;
+                }
+            }
+        }
+        return intList;
     }
 
     /*
@@ -46,7 +62,14 @@
      * Input: 3    Output: 6
     */
     public static Integer nFactorial( Integer n) {
-
+        if(n<2){
+            return 1;
+        }
+        Integer result=1;
+        for (Integer i=1; i<n+1; i++){
+            result*=i;
+        }
+        return result;
     }
 
     /*
@@ -58,7 +81,14 @@
      * Input: [1,2,3,4,5], 3    Output: [4,5,1,2,3]
     */
     public static List<Integer> rotateLeftNTimes( List<Integer> nList, Integer n) {
-
+        for(Integer j=0; j<n; j++){
+            Integer tmp=nList[0];
+            for(Integer i=0; i<nList.size()-1; i++){
+              nList[i]=nList[i+1];
+            }
+            nList[nList.size()-1]=tmp; 
+        } 
+        return nList;
     }
 
     /*
@@ -81,7 +111,17 @@
      * Return false if not balanced
     */
     public static Boolean bracketsAreBalanced( String s ) {
-
+       Boolean flag= true;
+       Integer i=0;
+       Integer j=s.length()-1;
+       while(i>j){
+           if (s.charAt(i)!=s.charAt(j)){
+               flag=false;
+           }
+           i++;
+           j--;
+       }
+       return flag;
     }
 
     /* You should NOT be submitting answers that you find online. You will be expected to be able to defend any of these solutions without notice. */
@@ -97,6 +137,17 @@
      *     Update the Size__c field on each account to reflect the amount of employees in the Account.
     */
     public static void updateAccountSize( ) {
+        List<Account> accs=[select Id, Name, NumberOfEmployees, Size__c from Account];
+        for (Account acc : accs){
+            if(acc.NumberOfEmployees>1 && acc.NumberOfEmployees<1000){
+                acc.Size__c='samll';
+            }else if(acc.NumberOfEmployees>1001 && acc.NumberOfEmployees<10000){
+                acc.Size__c='medium';
+            }else{
+                acc.Size__c='large'; 
+            }
+        }
+       update accs;
 
     }
 
@@ -107,7 +158,12 @@
      * business in California."
      */
     public static void updateCALeads( ) {
-
+        List<Lead> leads=[SELECT Id, StateCode, Name, Description, Status FROM Lead where StateCode like '%ca%'];
+        for (Lead ld : leads){
+            ld.Status='Closed - Not Converted';
+            ld.Description='We are no longer doing business in California.';
+        }
+        update leads;
     }
 
     /*
@@ -116,7 +172,14 @@
      * they are not marked as 'Closed Won', they should be marked as 'Closed Lost'.
      */
     public static void closePastDueOpportunities( ) {
-
+      List<Opportunity> opps=[SELECT Id, Name, CloseDate, StageName FROM Opportunity where StageName !='Closed Won'];
+      for (Opportunity opp : opps){
+          if(opp.CloseDate<Date.today()){
+            
+              opp.StageName='Closed Lost';
+          }
+      }
+      update opps;
     }
 
     /*  
@@ -134,6 +197,41 @@
      *          question marks between those numbers
     */
     public static Boolean questionMarks(String str) {
+        Boolean flag= true;
+        Boolean checked=false;
+        List<String> ls=str.split('');
+        Integer start;
+        Integer second;
+        Integer totalQM=0;
+        Integer count=0;
+        while(!checked || count<ls.size()){
+            if(ls[count].isNumeric()){
+                start=count;
+                Boolean next=false;
+                while(!next || count<ls.size()){
+                    count=start+1;
+                    if(ls[count]=='?'){
+                        totalQM++;
+                    }
+                    if(ls[count].isNumeric()){
+                        next=true;
+                        second=count;
+                    }
+                    count++;
+                }
+            }
+           
+            if((integer.valueOf(ls[start])+integer.valueOf(ls[second]))==10){
+                if(totalQM==3){
+                    checked=true;
+                }else{
+                    flag=false;
+                    count=second-1;
+                }
+            }
+         count++;
+        }
+        return flag;
     }
 
     /*
@@ -146,6 +244,23 @@
      *          (which are 2, 4, 6, 8, 10, and 12)
     */
     public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
+        Integer count=0; 
+        Integer num;
+        if (firstNum==n){
+           num=1;
+        }else{
+            num=firstNum/n+1;
+        }
+        Integer result;
+        if(n<firstNum){
+           while(result<secondNum){
+               result=n*num;
+               num++;
+               count++;
+            }
+           return count;
+        }
+        return count;  
     }
     
     /*
@@ -166,4 +281,35 @@
      *                                    'aba' 'bbb' 'abba' 'b' 'aba' is the greedy answer.
     */
     public static Integer palindromicity(String str) {
+        Integer degree;
+        Integer start;
+        Integer second;
+        Integer count=0;
+        if(str.length()<=2){
+            return str.length();
+        }else{
+            while(count<str.length()){
+                start=count;
+                Boolean next=false;
+                while(!next){
+                   count=start+1;
+                   if(str.charAt(count)==str.charAt(start))
+                   {
+                    next=true;
+                    second=count;
+                    }
+                    count++;
+                }
+                String sub=str.substring(start, second+1);
+                if(sub==sub.reverse()){
+                    degree++;
+                    count=start;
+                }else{
+                    degree++;
+                    count=second;
+                }
+                count++;
+            }
+            return degree;
+        }
     }
