@@ -1,0 +1,93 @@
+    Lead off your class with the following comment, filled out with 
+    your information.
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Name: Coding Challenges
+    // Author: Name (Email)
+    // Date: 00/00/0000
+    // Description: Series of apex methods to demonstrate
+    // basic understanding of coding concepts.
+    //
+    /////////////////////////////////////////////////////////////////
+
+    Write the following methods in a class called P0B. 
+    Note: The method signatures are given.
+
+public class Der {
+     /*
+     * 1. Return the nth Fibonacci number
+     * Test Cases:
+     * Input: 0     Output: 0
+     * Input: 1    Output: 1
+     * Input: 2     Output: 1
+     * Input: 10    Output: 55
+    */
+
+    public static Integer nFibonacci( Integer n){
+          if (n <= 1)
+            return n;
+       Integer fn = n - 1;
+       Integer sn = n - 2;
+       Integer en = fn + sn;
+        return en;        
+        /*if (n <= 1)
+        	return n;
+        return nFibonacci(n - 1) + nFibonacci(n - 2);*/
+
+    }
+ 
+    
+    public static List<Integer> sortList( List<Integer> intList){
+        integer tem = 0;
+        
+        for (Integer i = 0; i < intList.size(); i++) {
+            for (Integer j = i + 1; j <= intList.size() -1; j++) {
+                if(intList[i] > intList[j]) {
+                    tem = intList[i];
+                    intList[i] = intList[j];
+                    intList[j] = tem;
+                }
+            }
+            for(Integer k : intList){
+                system.debug('' + k);
+            }
+        }
+        Return intList;
+        
+        
+        }
+
+    public static List<Integer> rotateLeftNTimes( List<Integer> nList, Integer n) {
+           
+           while (n > 0){
+               nList.add(nList[0]);
+               nList.remove(0);
+               n--;
+              }
+           Return nList;
+          }
+    
+    
+    public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
+		integer leftOver = math.mod(firstNum, secondNum);
+        return (((secondNum-firstNum)/n)+1) - math.mod(secondNum, firstNum);
+    }
+    
+    public static Integer nFactorial( Integer n) {
+        
+        Integer j = 1;
+        for (Integer i = 0; i <= n - 1; i++){
+			j *= (i + 1);
+        }
+        
+		return j;
+    }
+    
+     /*public static Integer palindromicity(String str) {
+         Integer i = 0
+         
+        
+    }*/
+
+}
