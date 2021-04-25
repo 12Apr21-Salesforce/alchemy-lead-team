@@ -32,10 +32,10 @@
         }
 
         //For loop to show a list of nth numbers in the fibonacci sequence 
-		//for (Integer i = 0; i <=10; i++)
-        //{
-		//    System.debug(nFibonacci(i));
-		//}
+	for (Integer i = 0; i <=10; i++)
+        {
+		System.debug(nFibonacci(i));
+	}
     
 
     /*
