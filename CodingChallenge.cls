@@ -4,8 +4,8 @@
     /////////////////////////////////////////////////////////////////
     //
     // Name: Coding Challenges
-    // Author: Name (Email)
-    // Date: 00/00/0000
+    // Author: Miguel (miguel.mccrary@revature.net)
+    // Date: 04/23/2021
     // Description: Series of apex methods to demonstrate
     // basic understanding of coding concepts.
     //
@@ -22,8 +22,21 @@
      * Input: 2     Output: 1
      * Input: 10    Output: 55
     */
-    public static Integer nFibonacci( Integer n ){
+    class CodingChallenge 
+    {
 
+        public static Integer nFibonacci( Integer n )
+        {
+         if (n <= 1)
+         return n;
+         return nFibonacci(n-1) + nFibonacci(n-2);
+        }
+
+        public static void main (String arg[])
+        {
+            int n = 9;
+            System.System.debug(nFibonacci(n));
+        }
     }
 
     /*
