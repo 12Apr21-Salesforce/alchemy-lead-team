@@ -28,17 +28,16 @@ public with sharing class Miguel_McCrary_cc {
     
 //Tested with execute anonymous
     public static Integer nFibonacci( Integer n )
-        {   //if the position in the sequence is 0 or 1, return those values(start of sequence)
+        {   //Base Case
             if (n <= 1)
             {
                return n; 
             }
-            //recursive call to add the values of the two previous method calls together to form the value for the current method call.
+            //recursive solution
          	return nFibonacci(n-1) + nFibonacci(n-2);
            
         }
 
-        //For loop to show a list of nth numbers in the fibonacci sequence (in this case 11) 
         for(Integer i = 0; i <=10; i++)
         {
 		System.debug(nFibonacci(i));
@@ -56,17 +55,15 @@ public with sharing class Miguel_McCrary_cc {
 //Tested with execute anonymous
 public static List<Integer> sortList( List<Integer> orderedIntegerList) {
 
-//for loop that takes the current index (i) and uses it's value for comparison with the next index (j) value. 
+//for loop that takes the current index (i) for comparison
 for(Integer i = 0; i < orderedIntegerList.size(); i++)
 {
-    //for loop that takes the next index after the current one (i) and uses it's value for comparison	
+    //for loop that takes the next index (j) for comparison
     for(Integer j = i+1; j < orderedIntegerList.size(); j++)
-    {
-	//Stores the greater of the two index values    
+    {   
         Integer greaterNum;
 	    
-	//Compares current index (i) value with the next index (j) value and swaps values(positions) if the current index value is greater
-	//This will create an Ascending Order List  
+	//Compares current index (i) value with the next index (j)
         if(orderedIntegerList[i] > orderedIntegerList[j])
         {
 	//stores greater index value
@@ -80,7 +77,7 @@ for(Integer i = 0; i < orderedIntegerList.size(); i++)
     }
   
 }
-	//For loop to display the single ordered indexes in a new line.
+	//Displays the single ordered indexes in a new line.
 	for(Integer g:orderedIntegerList)
 	{
 		system.debug('' + g);
@@ -116,7 +113,7 @@ public static Integer nFactorial( Integer n)
 return fac;
 }
 	
-    //for loop to display factorials 1-10
+    //Display factorials 1-10
     Integer num = 11;
     for(Integer j = 1; j <= num; j++)
     {
@@ -140,7 +137,7 @@ return fac;
     
           // take out the first element of the list and store it in a temp variable
           Integer addLast = rotatedlist[0];
-          //for loop   
+		
           for (Integer j = 0; j < rotatedlist.size() - 1; j++) {
     
             // moves list elements to the left by replacing the current indexes value with the next indexes value.
