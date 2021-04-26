@@ -1,3 +1,5 @@
+//import java.util.Scanner;
+
     Lead off your class with the following comment, filled out with 
     your information.
 
@@ -10,7 +12,6 @@
     // basic understanding of coding concepts.
     //
     /////////////////////////////////////////////////////////////////
-
     Write the following methods in a class called P0B. 
     Note: The method signatures are given.
 
@@ -22,10 +23,22 @@
      * Input: 2     Output: 1
      * Input: 10    Output: 55
     */
-    public static Integer nFibonacci( Integer n ){
-
-    }
-
+   public static Integer nFibonacci( Integer n ){
+    Integer nthfib;
+    Integer num1 = 0, num2 = 1;
+    //    Scanner s = new Scanner(System.in);
+    //System.Debug('Enter your input for the fibonacci position you want to know: ');
+    //      n = s.nextInt();
+    system.debug('For the ' + n + 'th numbers the Fibonacci number is:');
+        // int i = 0;
+    for (Integer i = 0; i < n; i++) {
+        nthfib = num1 + num2;
+        num1 = num2;
+        num2 = nthfib;
+    }  
+    return num1;
+	}
+    system.debug(nFibonacci(10));
     /*
      * 2. Sort a list of integers.
      * Test Cases:
@@ -34,9 +47,26 @@
      *
      * Don't use the sort() method... that would be lame.
     */
-    public static List<Integer> sortList( List<Integer> intList ) {
 
+    public static List<Integer> sortList( List<Integer> intList ) {
+       for(Integer i =0; i< intList.size();i++){
+            for (Integer j = i+1 ; j<intList.size(); j++){
+                Integer num1 = intList[i];
+                Integer num2 = intList[j];
+                if(num2 < num1){
+                    newList[i] = num2;
+                    newList[j] = num1;
+                }
+            }
+        }
+        for (Integer i:intList){
+            system.debug(''+i);
+            }
+        return newList;
     }
+    List<Integer> newList = new List<Integer>{2,4,5,1,3,1};
+    system.debug(sortList(newList));
+
 
     /*
      * 3. Return the factorial of n.
@@ -46,9 +76,13 @@
      * Input: 3    Output: 6
     */
     public static Integer nFactorial( Integer n) {
-
+        Integer result = 1;
+        for(Integer i=1; i<=n; i++){
+            result=result*i;            
+        }
+		return result;
     }
-
+	system.debug('The factorial for 5 = ' + nFactorial(5));
     /*
      * 4. Rotate left
      * Given a list, list, and an integer, n, rotate the values in list left n times and return list
@@ -57,9 +91,26 @@
      * Input: [1,2,3,4,5], 6    Output: [2,3,4,5,1]
      * Input: [1,2,3,4,5], 3    Output: [4,5,1,2,3]
     */
-    public static List<Integer> rotateLeftNTimes( List<Integer> nList, Integer n) {
-
+  public static List<Integer> rotateLeftNTimes( List<Integer> nList, Integer n) {
+    integer j;
+    integer first;  
+    for(integer i = 0; i < n; i++){           
+            //Stores the first element of the array  
+            first = nList[0];  
+            for(j = 0; j < nList.size()-1; j++){  
+                //Shift element of array by one  
+                newList[j] = nList[j+1];  
+            }  
+            //First element of array will be added to the end  
+            newList[j] = first;  
     }
+    for (Integer i:nList){
+        system.debug(''+i);
+        } 
+    return newList;
+}
+List<Integer> newList = new List<Integer>{1,2,3,4,5};
+system.debug(rotateLeftNTimes(newList,1));
 
     /*
      * 5. Balanced Brackets
@@ -79,10 +130,40 @@
      *
      * Return true if balanced
      * Return false if not balanced
-    */
-    public static Boolean bracketsAreBalanced( String s ) {
+   */
+  public static Boolean bracketsAreBalanced( String s ) {
+      boolean result = false;
+      integer len = s.length();
+      List<String> al = new List<String>();
+//      String[] chars = s.split('');
+//chars.remove(0);
+        for (integer i = 0; i < len; i++) {
+            for(integer j=1 ; j<=len-i; j++){
+                if (s.substring(i) == '(' || s.substring(i) == '{' || s.substring(i) == '[') {
+                al.add(s.substring(i,i+j));
+            }
+            else if (s.substring(i) == ')' || s.substring(i) == '}' || s.substring(i) == ']') {
+                if (al.size() != 0 && al.get(al.size() - 1).equals('(') && s.substring(i) == ')') {
+                    al.remove(al.size() - 1);
+                } else if (al.size() != 0 && al.get(al.size() - 1).equals('{') && s.substring(i) == '}') {
+                    al.remove(al.size() - 1);
+                } else if (al.size() != 0 && al.get(al.size() - 1).equals('[') && s.substring(i) == ']') {
+                    al.remove(al.size() - 1);
+                } else {
+                    return result;
+                }
+            }
+        }
+        }
+        if (al.size() < 1) {
+            return true;
+        }
+        return result;
+}
 
-    }
+ 
+System.debug(bracketsAreBalanced('{}[]()'));
+
 
     /* You should NOT be submitting answers that you find online. You will be expected to be able to defend any of these solutions without notice. */
 
@@ -96,8 +177,27 @@
     *         - If an account has more than 10000 employees it is classified as large.
      *     Update the Size__c field on each account to reflect the amount of employees in the Account.
     */
-    public static void updateAccountSize( ) {
+    public static void updateAccountSize(   Integer empNumber ) {
+        //Integer numberOfAcc
+        Integer counter =1;
+        List<Account> newList = new Account();
+        while(counter< empNumber){
 
+            Account classified = new Account();
+       
+        if(empNumber < 1000){
+            classified.Size_c = 'small';
+
+        }
+        if(empNumber > 1001 && empNumber < 100000){
+            classified.Size_c = 'medium';
+        }
+        if(empNumber > 10000){
+        classified.Size__c = 'Large';
+        }
+        counter = counter +1;
+        }
+        insert newList;
     }
 
     /* 
@@ -107,8 +207,30 @@
      * business in California."
      */
     public static void updateCALeads( ) {
+        
+     List<List<sObject>> searchKeywordLead = LeadSearch.searchLeads('ca');
 
+     List<Lead> updateStatusandDescription = New List<Lead>();
+     
+    updateStatusandDescription = ((List<Lead>)searchKeywordLead[0]);
+
+    Lead status = new Lead();
+    for(Lead a:updateStatusandDescription){
+        System.debug(' The following Leads have CA in it' + a.Name);
     }
+    for(Lead b:updateStatusandDescription){      
+        if(b.address.contains('CA')){
+            status.lead_status__c = 'Close - Not Converted';
+            status.description__c = 'We are no longer doing business in California'           
+
+        }
+    //System.debug('Found following Contacts ' + cts.FirstName + '' + cts.LastName);
+    }
+    insert updateStatusandDescription;
+}
+
+
+    
 
     /*
      * 8. Create a method that will find all Opportunities which have already passed their Close Date 
@@ -166,4 +288,5 @@
      *                                    'aba' 'bbb' 'abba' 'b' 'aba' is the greedy answer.
     */
     public static Integer palindromicity(String str) {
+
     }
