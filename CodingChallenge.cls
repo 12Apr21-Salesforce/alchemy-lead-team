@@ -114,10 +114,16 @@
        Boolean flag= true;
        Integer i=0;
        Integer j=s.length()-1;
-       while(i>j){
-           if (s.charAt(i)!=s.charAt(j)){
+       while(i<j){
+        if(s.charAt(i)==40){
+           if (s.charAt(i)!=s.charAt(j)-1){
                flag=false;
-           }
+           } 
+        }else {
+            if (s.charAt(i)!=s.charAt(j)-2){
+                flag=false;
+            }
+        }  
            i++;
            j--;
        }
