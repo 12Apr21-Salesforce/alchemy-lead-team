@@ -41,8 +41,8 @@ public with sharing class Miguel_McCrary_cc {
         //For loop to show a list of nth numbers in the fibonacci sequence (in this case 11) 
         for(Integer i = 0; i <=10; i++)
         {
-		    System.debug(nFibonacci(i));
-		}
+		System.debug(nFibonacci(i));
+	}
     
 
     /*
@@ -56,15 +56,23 @@ public with sharing class Miguel_McCrary_cc {
 //Tested with execute anonymous
 public static List<Integer> sortList( List<Integer> orderedIntegerList) {
 
-
+//for loop that takes the current index (i) and uses it's value for comparison with the next index (j) value. 
 for(Integer i = 0; i < orderedIntegerList.size(); i++)
 {
+    //for loop that takes the next index after the current one (i) and uses it's value for comparison	
     for(Integer j = i+1; j < orderedIntegerList.size(); j++)
     {
+	//Stores the greater of the two index values    
         Integer greaterNum;
+	    
+	//Compares current index (i) value with the next index (j) value and swaps values(positions) if the current index value is greater
+	//This will create an Ascending Order List  
         if(orderedIntegerList[i] > orderedIntegerList[j])
         {
+	//stores greater index value
             greaterNum = orderedIntegerList[i];
+		
+	//swaps positions(value) of (i) and (j)
             orderedIntegerList[i] = orderedIntegerList[j];
             orderedIntegerList[j] = greaterNum;
             
@@ -72,14 +80,18 @@ for(Integer i = 0; i < orderedIntegerList.size(); i++)
     }
   
 }
-for(Integer g:orderedIntegerList)
-{
-system.debug('' + g);
+	//For loop to display the single ordered indexes in a new line.
+	for(Integer g:orderedIntegerList)
+	{
+		system.debug('' + g);
+	}
+	return orderedIntegerList;
 }
-return orderedIntegerList;
-}
-List<Integer> orderedIntegerList = new List<Integer>{2, 4, 5, 1, 3, 1};
-System.debug(sortList(orderedIntegerList));
+	//Creates the list to work with
+	List<Integer> orderedIntegerList = new List<Integer>{2, 4, 5, 1, 3, 1};
+	
+	//Displays list in debug after it is ordered
+	System.debug(sortList(orderedIntegerList));
 
     
     /*
@@ -94,13 +106,17 @@ System.debug(sortList(orderedIntegerList));
 public static Integer nFactorial( Integer n) 
 {
     Integer i, fac = 1;
+    //for loop to determine the factorial based on n
     for(i=1;  i <= n; i++)
     {
+	//product of all the positive integers less than or equal to the n given in the loop.  
         fac = fac * i;
     }
     
 return fac;
 }
+	
+    //for loop to display factorials 1-10
     Integer num = 11;
     for(Integer j = 1; j <= num; j++)
     {
@@ -135,12 +151,15 @@ return fac;
         }
         return rotatedlist;
       }
-        //for loop to show the list when it has been through 1, 3 and 6 rotations.
+        //for loop and if statement to show the list when it has been through 1, 3 and 6 rotations.
         for (Integer k = 1; k <= 6; k++)
         {
             if(k == 1 || k == 3 || k == 6)
             {
+		//Creates the list to work with
                 List<Integer> rotatedList = new List<Integer>{1, 2, 3, 4, 5};
+		    
+		//Displays list in debug after its nth rotation
                 System.debug('Here is the list after ' + k +' rotation(s) ' + rotateLeftNTimes(rotatedList, k));
             }
         }
