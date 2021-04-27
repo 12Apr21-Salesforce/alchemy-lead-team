@@ -143,17 +143,17 @@
      *     Update the Size__c field on each account to reflect the amount of employees in the Account.
     */
     public static void updateAccountSize( ) {
-        List<Account> accs=[select Id, Name, NumberOfEmployees, Size__c from Account];
-        for (Account acc : accs){
-            if(acc.NumberOfEmployees>1 && acc.NumberOfEmployees<1000){
-                acc.Size__c='samll';
-            }else if(acc.NumberOfEmployees>1001 && acc.NumberOfEmployees<10000){
+        List<Account> accounts=[select Id, Name, NumberOfEmployees, Size__c from Account];
+        for (Account acc : accounts){
+            if(acc.NumberOfEmployees>10000){
+                acc.Size__c='large';
+            }else if(acc.NumberOfEmployees>1000 ){
                 acc.Size__c='medium';
             }else{
-                acc.Size__c='large'; 
+                acc.Size__c='small'; 
             }
         }
-       update accs;
+       update accounts;
 
     }
 
@@ -203,39 +203,46 @@
      *          question marks between those numbers
     */
     public static Boolean questionMarks(String str) {
-        Boolean flag= true;
-        Boolean checked=false;
+        Boolean flag= false;
+        Boolean found=false;
+        //Split the string as List<String>
         List<String> ls=str.split('');
         Integer start;
         Integer second;
         Integer totalQM=0;
-        Integer count=0;
-        while(!checked || count<ls.size()){
-            if(ls[count].isNumeric()){
-                start=count;
-                Boolean next=false;
-                while(!next || count<ls.size()){
-                    count=start+1;
-                    if(ls[count]=='?'){
+        //search for first number
+        for(Integer i=0; i<ls.size();i++){
+            //find the fisrt number
+            if(ls[i].isNumeric()){
+                start=i;
+                //search for second number
+                for(Integer j=start+1; j<ls.size();j++){
+                    if(ls[j]=='?'){
+                        //to get number of question mark
                         totalQM++;
                     }
-                    if(ls[count].isNumeric()){
-                        next=true;
-                        second=count;
+                    if(ls[j].isNumeric()){
+                        //find the second number
+                        second=j;
+                        //check if sum of two num is 10 and 3 question marks in between
+                        if((integer.valueOf(ls[start])+integer.valueOf(ls[second]))==10 && totalQM==3){
+                            //if yes, set flag and found true
+                            flag=true;
+                            found=true; 
+                        }else{
+                            //if not, reset totalQM to 0 and i from second number
+                            totalQM=0;
+                            i=second-1;
+                        }
+                        //no matter what break after find second number.
+                        break;
                     }
-                    count++;
                 }
+            if(found){
+                //break if one pair of question marks match the criteria.
+                break;
             }
-           
-            if((integer.valueOf(ls[start])+integer.valueOf(ls[second]))==10){
-                if(totalQM==3){
-                    checked=true;
-                }else{
-                    flag=false;
-                    count=second-1;
-                }
-            }
-         count++;
+            }    
         }
         return flag;
     }
@@ -251,22 +258,12 @@
     */
     public static Integer multipleCounter(Integer firstNum, Integer secondNum, Integer n) {
         Integer count=0; 
-        Integer num;
-        if (firstNum==n){
-           num=1;
-        }else{
-            num=firstNum/n+1;
-        }
-        Integer result;
-        if(n<firstNum){
-           while(result<secondNum){
-               result=n*num;
-               num++;
-               count++;
+        for(Integer i=firstNum; i<secondNum;i++){
+            if(Math.mod(i,n)==0){
+                count++;
             }
-           return count;
         }
-        return count;  
+        return count; 
     }
     
     /*
@@ -285,7 +282,7 @@
      *      str = "abcbabcbababa" => 3. both ways: "abcbabcba" "bab" "a" or "ababa" "bcbabcb" "a"
      *      str = "ababbbabbababa" => 4. NOT GREEDY. 'a' 'babbbab' 'b' 'ababa' is the answer. 
      *                                    'aba' 'bbb' 'abba' 'b' 'aba' is the greedy answer.
-    */
+    */  
     public static Integer palindromicity(String str) {
         Integer degree;
         Integer start;
